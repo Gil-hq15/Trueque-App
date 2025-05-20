@@ -1,0 +1,55 @@
+{% extends 'layout.html' %} {% block content %}
+<div class="container my-5">
+  <h1 class="mb-4 font-bold text-2xl text-emerald-600">░░░ Perfil de {{ current_user.username }} ░░░</h1><h1></h1>
+
+  <!-- Productos del usuario -->
+  <h2 class="h4 font-bold">╔ Mis Productos</h2>
+  {% if current_user.products %}
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
+    {% for product in current_user.products %}
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        {% if product.image_filename %}
+        <img
+          src="{{ url_for('static', filename='uploads/' + product.image_filename) }}"
+          class="card-img-top"
+          alt="{{ product.title }}"
+          style="max-height: 200px; object-fit: contain"
+        />
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ product.title }}</h5>
+          <p class="card-text">{{ product.description }}</p>
+          <a
+            href="{{ url_for('products.product_detail', product_id=product.id) }}"
+            class="btn btn-sm btn-outline-primary"
+          >
+            Ver detalles
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-muted">Aún no has publicado productos.</p>
+  {% endif %}
+
+  <hr class="my-5" />
+
+  <!-- Ofertas realizadas -->
+  <h2 class="h4 font-bold">╔ Ofertas que He Realizado</h2>
+  {% if current_user.offers %}
+  <ul class="list-group">
+    {% for offer in current_user.offers %}
+    <li class="list-group-item">
+      Ofreciste <strong>{{ offer.offered_product.title }}</strong> a cambio de
+      <strong>{{ offer.product.title }}</strong>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="text-muted">No has realizado ofertas aún.</p>
+  {% endif %}
+</div>
+{% endblock %}

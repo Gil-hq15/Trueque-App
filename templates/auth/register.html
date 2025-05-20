@@ -1,0 +1,44 @@
+{% extends 'layout.html' %} {% block title %}Registro - TruequeApp{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-2xl font-bold mb-4">Registro</h2>
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="mb-4">
+      {{ form.username.label(class="block font-semibold") }} {{
+      form.username(class="w-full border border-gray-300 p-2 rounded") }} {% for
+      error in form.username.errors %}
+      <p class="text-red-600 text-sm">{{ error }}</p>
+      {% endfor %}
+    </div>
+    <div class="mb-4">
+      {{ form.password.label(class="block font-semibold") }} {{
+      form.password(class="w-full border border-gray-300 p-2 rounded") }} {% for
+      error in form.password.errors %}
+      <p class="text-red-600 text-sm">{{ error }}</p>
+      {% endfor %}
+    </div>
+    <div class="mb-4">
+      {{ form.confirm_password.label(class="block font-semibold") }} {{
+      form.confirm_password(class="w-full border border-gray-300 p-2 rounded")
+      }} {% for error in form.confirm_password.errors %}
+      <p class="text-red-600 text-sm">{{ error }}</p>
+      {% endfor %}
+    </div>
+    <button
+      type="submit"
+      class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+    >
+      Registrarse
+    </button>
+  </form>
+  <p class="mt-4">
+    ¿Ya tienes cuenta?
+    <a
+      href="{{ url_for('auth.login') }}"
+      class="text-emerald-600 hover:underline"
+      >Inicia sesión</a
+    >
+  </p>
+</div>
+{% endblock %}

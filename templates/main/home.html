@@ -1,0 +1,47 @@
+{% extends 'layout.html' %} {% block title %}Inicio - TruequeApp{% endblock %}
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-bold">Productos disponibles</h1>
+  {% if current_user.is_authenticated %}
+  <a
+    href="{{ url_for('products.new_product') }}"
+    class="bg-emerald-600 text-white px-4 py-2 rounded hover:bg-emerald-700 drop-shadow-xl"
+    >■   Publicar producto</a
+  >
+  {% else %}
+  <p class="text-gray-600">Inicia sesión para publicar y hacer ofertas</p>
+  {% endif %}
+</div>
+{% if products %}
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+  {% for product in products %}
+  <div class="bg-white border-2 hover:border-emerald-200 hover:bg-emerald-50 p-4 rounded-xl shadow-lg">
+    {% if product.image_filename %}
+    <img
+      src="{{ url_for('static', filename='uploads/' ~ product.image_filename) }}"
+      alt="{{ product.title }}"
+      class="w-full h-80 object-cover rounded-lg mb-2 border-2 shadow-md"
+    />
+    {% else %}
+    <div
+      class="bg-gray-200 h-48 flex items-center justify-center rounded mb-2 text-gray-500"
+    >
+      Sin imagen
+    </div>
+    {% endif %}
+    <h2 class="text-xl font-semibold">{{ product.title }}</h2>
+    <p class="text-gray-700">
+      {{ product.description[:100] }}{% if product.description|length > 100
+      %}...{% endif %}
+    </p>
+    <a
+      href="{{ url_for('products.product_detail', product_id=product.id) }}"
+      class="text-emerald-600  hover:bg-emerald-100 mt-2 inline-block bg-emerald-50 p-1 rounded-md shadow-md"
+      >¤ Ver detalles</a
+    >
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p>No hay productos publicados aún.</p>
+{% endif %} {% endblock %}

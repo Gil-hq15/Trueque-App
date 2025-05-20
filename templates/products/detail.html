@@ -1,0 +1,59 @@
+{% extends 'layout.html' %} {% block content %}
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body bg-white border-2 p-4 rounded-xl shadow-lg w-80">
+          <h1 class="card-title text-2xl font-bold">{{ product.title }}</h1>
+          <p class="card-text">{{ product.description }}</p><br>
+
+          {% if product.image_filename %}
+          <img
+            src="{{ url_for('static', filename='uploads/' + product.image_filename) }}"
+            alt="{{ product.title }}"
+            class="img-fluid rounded mb-3 h-60"
+          />
+          {% endif %}
+        </div><br>
+      </div>
+
+      {% if current_user.is_authenticated %}
+      <div class="card mb-4">
+        <div class="card-body">
+          <h2 class="h4 mb-3 font-bold text-emerald-600">Ofrecer Trueque</h2>
+          <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+              {{ form.offered_product_id.label(class="form-label") }} {{
+              form.offered_product_id(class="form-select") }}
+            </div>
+            <div class="text-emerald-600  hover:bg-emerald-100 mt-2 inline-block bg-emerald-50 p-1 rounded-md shadow-md">{{ form.submit(class="btn btn-primary") }}</div>
+          </form>
+        </div>
+      </div>
+      {% else %}
+      <div class="alert alert-info">
+        <a href="{{ url_for('login') }}" class="alert-link ">Inicia sesión</a>
+        para ofrecer un trueque.
+      </div>
+      {% endif %}
+      
+      <hr />
+
+      <h2 class="h4 mt-4 font-bold text-emerald-600">Ofertas de Trueque</h2>
+      {% if offers %}
+      <ul class="list-group">
+        {% for offer in offers %}
+        <li class="list-group-item">
+          Usuario #{{ offer.offerer_id }} ofrece:
+          <strong>{{ offer.offered_product.title }}</strong>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-muted">No hay ofertas aún.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

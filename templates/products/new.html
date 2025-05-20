@@ -1,0 +1,36 @@
+{% extends "layout.html" %} {% block title %}Crear Nuevo Producto{% endblock %}
+{% block content %}
+<h2 class="text-emerald-600 text-2xl font-bold">Crear Nuevo Producto</h2>
+
+<br><form method="POST" enctype="multipart/form-data" class="w-2/3 p-3 border-2 rounded-lg border-emerald-200 shadow-lg">
+  {{ form.hidden_tag() }}
+
+  <p class="">
+    {{ form.title.label }}<br />
+    {{ form.title }}<br />
+    {% for error in form.title.errors %}
+    <span style="color: red">{{ error }}</span>
+    {% endfor %}
+  </p>
+
+  <br><p>
+    {{ form.description.label }}<br />
+    {{ form.description }}<br />
+    {% for error in form.description.errors %}
+    <span style="color: red">{{ error }}</span>
+    {% endfor %}
+  </p>
+
+  <br><p>
+    {{ form.image.label }}<br />
+    {{ form.image }}<br />
+    {% for error in form.image.errors %}
+    <span style="color: red">{{ error }}</span>
+    {% endfor %}
+  </p>
+
+  <br><p><button type="submit" class="text-emerald-600  hover:bg-emerald-100 mt-2 inline-block bg-emerald-50 p-1 rounded-md shadow-md">
+    Publicar Producto
+  </button></p>
+</form>
+{% endblock %}
